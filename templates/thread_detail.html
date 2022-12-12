@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="article-entry card">
+    <div class="card-header">
+        <h2>{{ object.title }}</h2>
+        <p>
+            by {{ object.author }} | {{ object.date }}
+        </p>
+    </div>
+    <p class="card-body">
+        {{ object.body }}
+    </p>
+<p>
+    {% comment %} {% if object.author == object.request.user %} {% endcomment %}
+    <a href="{% url 'thread_edit' thread.pk %}">Edit</a> | <a href="{% url 'thread_delete' thread.pk %}">Delete</a><br>
+    {% comment %} {% endif %} {% endcomment %}
+</p>
+</div>
+<div>
+    <h4>Comments:</h4><hr>
+    {% for comment in object.comment_set.all %}
+    <p>
+        {{ comment.author }}<br>{{ comment }}<hr>
+    </p>
+    {% endfor%}
+</div>
+<div>
+    <h4>Add a comment</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success ml-2">Submit</button>
+    </form>
+</div>
+<p>
+    Do you want to go <a href="{% url 'thread_list' %}">back to all threads?</a>
+</p>
+{% endblock content %}
