@@ -10,7 +10,9 @@ from .models import Thread
 class ThreadView(LoginRequiredMixin, ListView):  # defines the page that shows our threads, it does this by using ListView, which generates an iterable variable
     model = Thread
     template_name = "thread_list.html"
-
+    
+    # def get_queryset(self):
+    #     return self.model.objects.filter(thread=self.kwargs['pk'])
 
 class CommentGet(DetailView):  # GETting the comment info
     model = Thread

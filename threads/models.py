@@ -11,6 +11,9 @@ class Thread(models.Model): # model for our threads feature
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
+    
+    class Meta:
+        ordering = ['-id']  # reverses the order TODO add the upvote functionality
 
     def __str__(self):
         return self.title
