@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = 'django_project.asgi.application'
+# ASGI_APPLICATION = 'django_project.asgi.application'
 WSGI_APPLICATION = 'django_project.wsgi.application'
 
 
@@ -137,9 +137,10 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer",
-        "ROUTING": "django_project.routing.channel_routing",
-    }
-}
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer",
+#         "ROUTING": "django_project.routing.channel_routing",
+#     }
+# }
+
