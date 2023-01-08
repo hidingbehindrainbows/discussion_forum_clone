@@ -12,9 +12,7 @@
         {{ object.body }}
     </p>
 <p>
-    {% comment %} {% if object.author == object.request.user %} {% endcomment %}
     <a href="{% url 'thread_edit' thread.pk %}">Edit</a> | <a href="{% url 'thread_delete' thread.pk %}">Delete</a><br>
-    {% comment %} {% endif %} {% endcomment %}
 </p>
 </div>
 <div>
