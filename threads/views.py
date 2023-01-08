@@ -122,7 +122,8 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):  # allows users to creat
 
 @login_required(login_url="login")
 def thread_view(request):
-    qs = Thread.objects.annotate(like_count=(Count('liked')-Count('dislike'))).order_by('-like_count')  # has a small error idk why
+    # qs = Thread.objects.annotate(like_count=(Count('liked')-Count('dislike'))).order_by('-like_count')  # has a small error idk why
+    qs = Thread.objects.all()
     user = request.user
     context = {
         "qs":qs,
