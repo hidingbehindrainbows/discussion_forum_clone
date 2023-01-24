@@ -1,8 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-# from django.contrib.contenttypes.fields import GenericRelation
-# from django.contrib.auth.models import User
+from accounts.models import CustomUser
 
 
 class Thread(models.Model): # model for our threads feature 
@@ -13,16 +12,16 @@ class Thread(models.Model): # model for our threads feature
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
+    #images
+    thread_image = models.ImageField(null=True, blank=True, upload_to="images/")
     # likes
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL, default=None, blank = True, related_name="liked")
-    # Likes = GenericRelation(liked)
     #dislikes:
     dislike = models.ManyToManyField(settings.AUTH_USER_MODEL, default=None, blank=True, related_name="disliked")
-    # DisLike_count = GenericRelation(liked)
     
     # reversing the listview
     class Meta:
-        ordering = ['-id']  # reverses the order TODO add the upvote functionality
+        ordering = ['-id']  
 
     def __str__(self):
         return self.title
@@ -89,5 +88,23 @@ class Dislikes(models.Model):
     )
     value = models.CharField(choices=DISLIKE_CHOICES, default="Dislike", max_length=10)
     
+    
     def __str__(self):
         return str(self.thread)
+
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        CustomUser,
+        null=True,
+        on_delete=models.CASCADE,
+    )
+    bio = models.TextField()
+    pfp = models.ImageField(null=True, blank=True, upload_to="images/profile/")
+    
+    def __str__(self):
+        return str(self.user)
+
+    def get_absolute_url(self):
+        return reverse("home")

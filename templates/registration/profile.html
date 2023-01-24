@@ -1,49 +1,27 @@
 {% extends 'base.html' %}
+{%load static %}
+{% block title %} {{current_user }}'s Profile{% endblock title%}
 
-{% block title %} Profile page{% endblock title%}
+{% block content%}
+    {% if current_user.pfp %}
+        <img src="{{ current_user.pfp.url }}" width=40 height=40 class="rounded">
+    {% else %}
+        <img src="{% static 'threads/images/default_profile.jpg' %}" width=40 height=40 class="rounded">
+    {% endif %}
 
-{% block content %}
-<table class="table">
-    <tr>
-        <td>Username</td>
-        <td>:</td>
-        <td>{{user.username}}</td>
-    </tr>
-    <tr>
-        <td>Email</td>
-        <td>:</td>
-        <td>{{user.email}}</td>
-    </tr>
-    <tr>
-        <td>USN</td>
-        <td>:</td>
-        <td>{{user.USN}}</td>
-    </tr>
-    <tr>
-        <td>Email Options</td>
-        <td>:</td>
-        <div class="form-check">
-            <td>
-                <input class="form-check-input" type="checkbox" id="checkbox1" value="good">
-                <label class="form-check-label">Recieve news and update mails</label>
-            </td>
-        </div>
-    </tr>
-    <tr>
-        <td></td>
-        <td>:</td>
-        <div class="form-check">
-            <td>
-                <input class="form-check-input" type="checkbox" id="checkbox1" value="good">
-                <label class="form-check-label"><a herf="#" class="hover-overlay">Receive special priviliges with payment</a></label>
-            </td>
-        </div>
-    </tr>
-</table>
 
-<h3 class="text-danger">
-    <a href="#">Delete</a>
-    {% comment %} <button class="btn btn-danger">Confirm</button> {% endcomment %}
-</h3>
+<div>
+    <p> 
+    <strong>Username: </strong>{{current_user.user.username }}<br>
+    <strong>Name: </strong>{{current_user.user.first_name }} 
+        {{current_user.user.last_name }}<br>
+    <strong> USN:</strong> {{current_user.user.USN }}<br>
+    </p>
+    
+    <h4>{{current_user.bio}} </h4>
+</div>
+{% if user.id == current_user.user.id %}
 
+<a href="{% url 'edit_profile_page' user.id%}">Edit Profile</a>
+{% endif %}
 {% endblock content %}

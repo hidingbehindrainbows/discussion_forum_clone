@@ -7,43 +7,12 @@ from .forms import CommentForm
 from .models import Thread, Likes, Dislikes
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
+# from django.db.models import Count
 
 
 class ThreadView(LoginRequiredMixin, ListView):  # defines the page that shows our threads, it does this by using ListView, which generates an iterable variable
     model = Thread
     template_name = "thread_list.html"
-    
-    # def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-    #     template_name = "thread_list.html"
-    #     context = {
-    #         "qs":qs,
-    #         "user":user,
-    #     }
-    #     return render(request, "thread_list.html", context)
-    #     return super().get_context_data(**kwargs)
-
-
-    # def like_thread(request):
-    #     user = request.user
-    #     if request.method == "POST":
-    #         thread_id = request.POST.get("thread_id")
-    #         thread_obj = Thread.objects.get(id=thread_id)
-            
-    #         if user in thread_obj.liked.all():
-    #             thread_obj.liked.remove(user)
-    #         else:
-    #         thread_obj.liked.add(user)
-    #         like, created = Likes.objects.get_or_create(user=user, thread_id=thread_id)
-            
-    #         if not created:
-    #             if like.value == 'Like':
-    #                 like.value = "Unlike"
-    #             else:
-    #                 like.value = "Like"
-                    
-    #         like.save()
-    #     return redirect("thread_list")  # use redirect if it doesnt work or reverse_lazy
     
 
 class CommentGet(DetailView):  # GETting the comment info
@@ -68,7 +37,7 @@ class CommentPost(SingleObjectMixin, FormView):  # POSTing the comment info
     def form_valid(self, form):
         comment = form.save(commit=False)
         comment.thread = self.object
-        # comment.author = self.get_object().author
+        comment.author = self.request.user
         comment.save()
         return super().form_valid(form)
 
@@ -87,7 +56,7 @@ class ThreadDetailView(LoginRequiredMixin, View):  # A wrap view that uses both 
         return view(request, *args, **kwargs)
 
 
-class ThreadEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):  # allows ysers to edit their threads
+class ThreadEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):  # allows users to edit their threads
     model = Thread
     fields = (
         "title",
@@ -113,7 +82,7 @@ class ThreadDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):  # 
 class ThreadCreateView(LoginRequiredMixin, CreateView):  # allows users to create new threads
     model = Thread
     template_name = "thread_new.html"
-    fields = ("title", "body")  # new
+    fields = ("title", "body", "thread_image")  # new
 
     def form_valid(self, form):  # new
         form.instance.author = self.request.user
