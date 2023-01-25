@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ cats }}{% endblock title %}
+{% block content %}
+    {% if cat_posts%}
+        {% for cat in cat_posts %}
+        <div class="card">
+            <div class="card-header">
+                <span class="font-weight-bold"><a href="{% url 'thread_detail' cat.pk %}">{{ cat.title }}</a></span> &middot;
+                <span class="text-muted">by 
+                    {% if cat.author.profile.pfp %}
+                    <img src="{{cat.author.profile.pfp.url}}" width=20 height=20>
+                    {% else %}
+                    <img src="{% static 'threads/images/default_profile.jpg' %}" width=20 height=20 class="rounded">
+                    {% endif %}
+                    {{ cat.author }} | {{ cat.date}}</span>
+                <form action="{% url 'like_thread' %}" method = "POST" class="ui form">
+                    {% csrf_token %}
+                    <input type="hidden" name="thread_id" value="{{ cat.id }}">
+                    {% if user not in cat.liked.all and user not in cat.dislike.all %}
+                        <button class="btn btn bg-success" type="submit">Like</button>
+                    {% elif user in cat.liked.all and user not in cat.dislike.all  %}
+                        <button class="btn btn bg-danger" type="submit">Unlike</button>
+                    {% endif %}
+                </form>
+                {% comment %} dislikes {% endcomment %}
+                <form action="{% url 'dislike_thread' %}" method = "POST" class="ui form">
+                    {% csrf_token %}
+                    <input type="hidden" name="thread_id" value="{{ cat.id }}">
+                    {% if user not in cat.dislike.all and user not in cat.liked.all  %}
+                        <button class="btn btn bg-danger" type="submit">DisLike</button>
+                    {% elif user in cat.dislike.all%}
+                        <button class="btn btn bg-success" type="submit">Undo</button>
+                    {% endif %}
+                </form>
+                <strong>{{ cat.liked.all.count }} likes, {{ cat.dislike.all.count }} dislikes</strong>
+            </div>
+            <div class="card-body">
+                {{ cat.body }}
+            </div>
+            <div class="card-footer">
+                <h4>Comments</h4><hr>
+                {% for comment in cat.comment_set.all %}
+                <p>            
+                <span class="font-weight-bold">{{ comment.author }}</span><br>
+                {{ comment }}<hr>
+                </p>
+                {% endfor %}
+        {% endfor %}
+    {% else %}
+        <h2 class="text-center">No posts here yet...</h2>
+        <h4 class="text-center">Would you like to <a href="{% url 'thread_new'%}">make one</a>?</h4>
+    {% endif %}
+{% endblock content %}

@@ -3,11 +3,11 @@ from django.views.generic import ListView, DetailView, FormView, View
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
-from .forms import CommentForm
-from .models import Thread, Likes, Dislikes
+from .forms import CommentForm, ThreadForm
+from .models import Thread, Likes, Dislikes, Category
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-# from django.db.models import Count
+from django.db.models import Count
 
 
 class ThreadView(LoginRequiredMixin, ListView):  # defines the page that shows our threads, it does this by using ListView, which generates an iterable variable
@@ -82,7 +82,7 @@ class ThreadDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):  # 
 class ThreadCreateView(LoginRequiredMixin, CreateView):  # allows users to create new threads
     model = Thread
     template_name = "thread_new.html"
-    fields = ("title", "body", "thread_image")  # new
+    form_class= ThreadForm
 
     def form_valid(self, form):  # new
         form.instance.author = self.request.user
@@ -121,9 +121,9 @@ def like_thread(request):
                     like.value = "Like"
                     
             like.save()
-        return redirect("thread_list")
+        return redirect("category", foo= thread_obj.category)
     except:
-        return HttpResponseRedirect(reverse_lazy("thread_list"))
+        return HttpResponseRedirect(reverse_lazy("category", foo= thread_obj.category))
 
 def dislike_thread(request):
     try:
@@ -145,6 +145,25 @@ def dislike_thread(request):
                     dislike.value = "Dislike"
                     
             dislike.save()
-        return redirect("thread_list")
+        return redirect("category", foo= thread_obj.category)
     except:
-        return HttpResponseRedirect(reverse_lazy("thread_list"))
+        return HttpResponseRedirect(reverse_lazy("category", foo= thread_obj.category))
+
+
+
+def CategoryView(request, cats):
+    choices = Category.objects.all().values_list("name")
+    all_cats = [item for items in choices for item in items]
+    cats = cats.replace("-", " ")
+    if cats in all_cats:
+        cat_posts = Thread.objects.filter(category=cats)
+        return render(request, "categories.html", {"cats":cats, "cat_posts":cat_posts,})
+    return redirect("home")
+
+def search_result(request):
+    if request.method == "POST":
+        searched = request.POST["searched"]
+        result = Thread.objects.filter(title__contains=searched).annotate(like_count=(Count('liked')-Count('dislike'))).order_by('-like_count')
+        return render(request, "search/search_result.html", {"searched":searched, "result":result})
+    return render(request, "search/search_result.html", {})
+    

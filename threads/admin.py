@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Thread, Comment, Likes, Dislikes, Profile
+from .models import Thread, Comment, Likes, Dislikes, Profile, Category
 
 
 class CommentInline(admin.TabularInline):  # adding an extra comment viewable option in our admin page
@@ -21,3 +21,5 @@ admin.site.register(Likes)
 admin.site.register(Dislikes)
 #the profile
 admin.site.register(Profile)
+
+admin.site.register(Category)

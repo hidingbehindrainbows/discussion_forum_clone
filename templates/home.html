@@ -13,13 +13,16 @@ Hi {{ user.username }}!
     You are not logged in.
 </p>
 {% endif %}
-<a href="#">
+<a href="{% url 'category' 'Site-News' %}">
     Site News!
 </a><br>
 <a href = "#">
     Site Suggestions and Tech Issues
 </a><br>
-<a href="#">Main</a><br>
-<a href="{% url 'thread_list' %}">Coding Questions and Discussions</a><br>
+<a href="{% url 'thread_list' %}">All</a><br>
+<a href="{% url 'category' 'General' %}">General</a><br>
+<a href="{% url 'category' cats="Web-Development" %}">Web Development</a><br>
+<a href="{% url 'category' 'App-Development' %}">App Development</a><br>
+<a href="{% url 'category' 'Coding' %}">Coding</a><br>
 <a href="{% url 'livechat' %}">Live Chat</a><br>
 {% endblock content %}

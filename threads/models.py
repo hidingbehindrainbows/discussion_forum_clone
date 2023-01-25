@@ -4,6 +4,16 @@ from django.urls import reverse
 from accounts.models import CustomUser
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("thread_detail", kwargs={"pk": self.pk})
+
+
 class Thread(models.Model): # model for our threads feature 
     title = models.CharField(max_length=255)
     body = models.TextField()
@@ -12,13 +22,10 @@ class Thread(models.Model): # model for our threads feature
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    #images
     thread_image = models.ImageField(null=True, blank=True, upload_to="images/")
-    # likes
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL, default=None, blank = True, related_name="liked")
-    #dislikes:
     dislike = models.ManyToManyField(settings.AUTH_USER_MODEL, default=None, blank=True, related_name="disliked")
-    
+    category = models.CharField(max_length=255, default="General")
     # reversing the listview
     class Meta:
         ordering = ['-id']  
@@ -107,4 +114,5 @@ class Profile(models.Model):
         return str(self.user)
 
     def get_absolute_url(self):
-        return reverse("home")
+        return reverse("user_profile", kwargs={"pk": self.pk}) # TODO this might give error, check once
+        # return reverse("home")
