@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'chats.apps.ChatsConfig', # the app for chatting
     'mainpage.apps.MainpageConfig', # the main_page
     'threads.apps.ThreadsConfig', # app for threads
+    "notis.apps.NotisConfig",
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "notis.views.CountNotifications",
             ],
         },
     },
@@ -90,6 +92,7 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = "accounts.CustomUser"
+NOTIFICATIONS_NOTIFICATION_MODEL = "apps.notis.Notification"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

@@ -26,10 +26,39 @@
     </p>
 <p>
     {% if user.id == object.author.id  %}
-        <a href="{% url 'thread_edit' thread.pk %}">Edit</a> | <a href="{% url 'thread_delete' thread.pk %}">Delete</a><br>
+        <a href="{% url 'thread_edit' object.pk %}">Edit</a> | <a href="{% url 'thread_delete' object.pk %}">Delete</a><br>
     {% endif %}
 </p>
 </div>
+<form action="{% url 'like_thread' %}" method = "POST" class="ui form">
+    {% csrf_token %}
+    <input type="hidden" name="thread_id" value="{{ object.id }}">
+    {% if user not in object.liked.all and user not in object.dislike.all %}
+        <button class="btn btn bg-success" type="submit">Like</button>
+    {% elif user in object.liked.all and user not in object.dislike.all  %}
+        <button class="btn btn bg-danger" type="submit">Unlike</button>
+    {% endif %}
+</form>
+{% comment %} dislikes {% endcomment %}
+<form action="{% url 'dislike_thread' %}" method = "POST" class="ui form">
+    {% csrf_token %}
+    <input type="hidden" name="thread_id" value="{{ object.id }}">
+    {% if user not in object.dislike.all and user not in object.liked.all  %}
+        <button class="btn btn bg-danger" type="submit">DisLike</button>
+    {% elif user in object.dislike.all%}
+        <button class="btn btn bg-success" type="submit">Undo</button>
+    {% endif %}
+</form>
+<form action="{% url 'watch' %}" method = "POST" class="ui form">
+    {% csrf_token %}
+    <input type="hidden" name="thread_id" value="{{ object.id }}">
+    {% if user not in object.watched.all  %}
+        <button class="btn btn bg-info" type="submit">Watch</button>
+    {% else %}
+        <button class="btn btn bg-danger" type="submit">Unwatch </button>
+    {% endif %}
+</form>
+<strong>{{ object.liked.all.count }} likes, {{ object.dislike.all.count }} dislikes, {{object.watched.all.count}} Watched</strong>
 <div>
     <h4>Comments:</h4><hr>
     {% for comment in object.comment_set.all %}

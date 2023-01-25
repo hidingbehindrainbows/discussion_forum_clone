@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Notifications{% endblock title %}
+{% block content %}
+<h2>Your notifications:</h2>
+{% if count_notifications != 0 %}
+{% for noti in notifications %}
+<div class="card">
+    <li class="collection-item avatar">
+    {{ noti.text_preview }}
+    <p class="text-right">
+        <a class="secondary-content" href="{% url 'delete_notifications' noti.id %}">Delete</a>
+    </p>
+</li>
+</div>
+{% endfor %}
+{% else %}
+<div class="center-align">
+    <br><br>
+        <h4>No notifications</h4>
+</div>
+{% endif %}
+{% endblock content %}

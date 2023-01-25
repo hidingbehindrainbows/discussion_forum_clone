@@ -121,9 +121,9 @@ def like_thread(request):
                     like.value = "Like"
                     
             like.save()
-        return redirect("category", foo= thread_obj.category)
+        return redirect("thread_detail", pk= thread_id)
     except:
-        return HttpResponseRedirect(reverse_lazy("category", foo= thread_obj.category))
+        return HttpResponseRedirect(reverse_lazy("thread_detail", kwargs={"pk": thread_id}))
 
 def dislike_thread(request):
     try:
@@ -145,9 +145,9 @@ def dislike_thread(request):
                     dislike.value = "Dislike"
                     
             dislike.save()
-        return redirect("category", foo= thread_obj.category)
+        return redirect("thread_detail", pk= thread_d_id)
     except:
-        return HttpResponseRedirect(reverse_lazy("category", foo= thread_obj.category))
+        return HttpResponseRedirect(reverse_lazy("thread_detail", kwargs={"pk": thread_d_id}))
 
 
 
@@ -166,4 +166,28 @@ def search_result(request):
         result = Thread.objects.filter(title__contains=searched).annotate(like_count=(Count('liked')-Count('dislike'))).order_by('-like_count')
         return render(request, "search/search_result.html", {"searched":searched, "result":result})
     return render(request, "search/search_result.html", {})
-    
+
+def watch_thread(request):
+    try:
+        user = request.user
+        if request.method == "POST":
+            thread_id = request.POST.get("thread_id")
+            thread_obj = Thread.objects.get(id=thread_id)
+            
+            if user in thread_obj.watched.all():
+                thread_obj.watched.remove(user)
+            else:
+                thread_obj.watched.add(user)
+            like, created = Likes.objects.get_or_create(user=user, thread_id=thread_id)
+            
+            if not created:
+                if like.value == 'Watch':
+                    like.value = "Unwatch"
+                else:
+                    like.value = "Watch"
+                    
+            like.save()
+        return redirect("thread_detail", pk= thread_id)
+    except:
+        return HttpResponseRedirect(reverse_lazy("thread_detail", kwargs={"pk": thread_id}))
+

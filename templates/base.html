@@ -83,7 +83,20 @@
                       {%else%}
                       <li><a href="{% url 'login' %}" class="btn btn-primary me-2" style="background-color:#0088cc;">Log In</a></li>
                       <li><a href="{% url 'signup' %}" class="btn btn-primary" style="background-color:#0088cc;">Sign Up</a></li>
-                    {%endif%} 
+                    {%endif%}
+                    <a class="dropdown-menu" href="#">Change Password</a>
+                    <li class="nav-item me-3 me-lg-0 dropdown">
+                      <button class="btn  btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #0088cc; border-style: hidden;">
+                        Alerts<span class="new badge bg-danger">{{ count_notifications }}</span>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                        {% if not count_notifications %}
+                        <li><a class="dropdown-item" href"#">You have no alerts</a></li>
+                        {% else %}
+                        <li><a class="dropdown-item" href="{% url 'show_notifications' %}">Would you like to go to your notifications page?</a></li>
+                        {% endif %}
+                      </ul>
+                    </li>
                     <li class="nav-item me-3 me-lg-0">
                       <form class="d-flex" method="post" action="{% url 'search_result' %}">
                         {% csrf_token %}
@@ -91,6 +104,7 @@
                       <button class="btn btn-outline-light btn-success " type="submit">
                       Search
                     </button>
+                  </li>
                   </form>
                     </ul>
                   </div>
