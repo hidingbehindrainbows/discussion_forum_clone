@@ -84,7 +84,6 @@
                       <li><a href="{% url 'login' %}" class="btn btn-primary me-2" style="background-color:#0088cc;">Log In</a></li>
                       <li><a href="{% url 'signup' %}" class="btn btn-primary" style="background-color:#0088cc;">Sign Up</a></li>
                     {%endif%}
-                    <a class="dropdown-menu" href="#">Change Password</a>
                     <li class="nav-item me-3 me-lg-0 dropdown">
                       <button class="btn  btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #0088cc; border-style: hidden;">
                         Alerts<span class="new badge bg-danger">{{ count_notifications }}</span>
@@ -97,6 +96,7 @@
                         {% endif %}
                       </ul>
                     </li>
+                    <a class="dropdown-menu" href="#">Change Password</a>
                     <li class="nav-item me-3 me-lg-0">
                       <form class="d-flex" method="post" action="{% url 'search_result' %}">
                         {% csrf_token %}

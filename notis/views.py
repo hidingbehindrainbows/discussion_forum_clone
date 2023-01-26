@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Notification
+from threads.models import WatchThread
 
 # Create your views here.
 
@@ -18,7 +19,8 @@ def DeleteNotifications(request, noti_id):
 
 
 def CountNotifications(request):
-    count = Notification.objects.filter(reciever=request.user, is_seen=False).count()
+    count = None
+    if request.user.is_authenticated:
+        count = Notification.objects.filter(reciever=request.user, is_seen=False).count()
     return { "count_notifications":count }
-    
     

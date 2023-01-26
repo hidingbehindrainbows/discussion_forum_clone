@@ -2,9 +2,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, UpdateView, DetailView
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from threads.models import Profile
+from threads.models import Profile, Thread, WatchThread
 from django.shortcuts import get_object_or_404
-from .forms import ProfilePageForm
 
 # Create your views here.
 
@@ -23,10 +22,17 @@ class ShowProfilePageView(LoginRequiredMixin, DetailView):
     template_name = "registration/profile.html"
     
     def get_context_data(self, *args, **kwargs):
-        context = super(ShowProfilePageView, self).get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
         current_user = get_object_or_404(Profile, id=self.kwargs['pk'])
+        threads_watched_by_you = WatchThread.objects.filter(user=current_user.user)
+        threads_watched_by_you = [item for item in threads_watched_by_you]
+        qs = Thread.objects.filter(title__in= threads_watched_by_you)
         
-        context["current_user"] = current_user
+        context = {
+            "current_user":current_user,
+            "threads_by_them":Thread.objects.filter(author=current_user.user),
+            "threads_watched_by_you": qs,
+        }
         return context
     
 
@@ -46,4 +52,4 @@ class EditSettingsView(UpdateView):
 class EditUserPageView(UpdateView):
     model = Profile
     template_name = "registration/edit_profile_page.html"
-    fields = ["bio", "pfp"]
+    fields = ("bio", "pfp")

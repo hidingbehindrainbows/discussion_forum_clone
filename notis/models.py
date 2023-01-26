@@ -14,4 +14,4 @@ class Notification(models.Model):
     text_preview = models.CharField(max_length=50, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     is_seen = models.BooleanField(default=False)
-    
+    reciever2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE, related_name="noti_to_other_user", blank=True, null=True) #useless rn 

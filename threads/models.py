@@ -69,7 +69,8 @@ class Comment(models.Model):  # the model for our comments section
         comment = instance
         thread = comment.thread
         sender = comment.author
-        text_preview = f"{comment.author} commented on your thread, { comment.thread }!"
+        ref = WatchThread.objects.filter(thread=thread)
+        text_preview = f"{comment.author} commented on '{ comment.thread }'!"
         
         notify = Notification(thread = thread, sender = sender, reciever = thread.author, text_preview = text_preview, notification_type=2)
         notify.save()
@@ -155,9 +156,6 @@ class WatchThread(models.Model):
         on_delete=models.CASCADE, 
     )
     value = models.CharField(choices=WATCH_CHOICES, default="Watch", max_length=10)
-    
-    def __str__(self):
-        return str(self.thread)
 
     def user_watch_thread(sender, instance, *args, **kwargs):
         watch = instance
@@ -167,6 +165,9 @@ class WatchThread(models.Model):
         
         notify = Notification(thread = thread, sender = sender, reciever = thread.author, text_preview = text_preview, notification_type=3)
         notify.save()
+    
+    def __str__(self):
+        return self.thread.title
     
 
 

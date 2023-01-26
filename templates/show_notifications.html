@@ -7,19 +7,38 @@
 <h2>Your notifications:</h2>
 {% if count_notifications != 0 %}
 {% for noti in notifications %}
+
 <div class="card">
-    <li class="collection-item avatar">
-    {{ noti.text_preview }}
-    <p class="text-right">
-        <a class="secondary-content" href="{% url 'delete_notifications' noti.id %}">Delete</a>
-    </p>
-</li>
-</div>
+    {% if noti.reciever.id == user.id %}
+        <li>
+            {% if noti.notification_type == 1 %}
+                You liked'd on your own <a href="{% url 'thread_detail' noti.thread.id%}">thread</a>!
+            {% elif noti.notification_type == 2 %}
+                You commented on your own <a href="{% url 'thread_detail' noti.thread.id%}">thread</a>!
+            {% elif noti.notification_type == 3 %}
+                You watched on your own <a href="{% url 'thread_detail' noti.thread.id%}">thread</a>!
+            {% endif %}
+        <p class="text-right">
+            <a class="secondary-content" href="{% url 'delete_notifications' noti.id %}">Delete</a>
+        </p>
+        </li>
+    {% else %}
+        <p>
+            <a href="{% url 'thread_detail' noti.thread.id%}">go there?</a>
+        </p>
+        <li class="collection-item avatar">
+        {{ noti.text_preview }}
+        <p class="text-right">
+            <a class="secondary-content" href="{% url 'delete_notifications' noti.id %}">Delete</a>
+        </p>
+        </li>
+        </div>
+    {% endif %}
 {% endfor %}
 {% else %}
-<div class="center-align">
-    <br><br>
-        <h4>No notifications</h4>
-</div>
+    <div class="center-align">
+        <br><br>
+            <h4>You have no notifications</h4>
+    </div>
 {% endif %}
 {% endblock content %}

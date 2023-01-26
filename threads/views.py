@@ -4,7 +4,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
 from .forms import CommentForm, ThreadForm
-from .models import Thread, Likes, Dislikes, Category
+from .models import Thread, Likes, Dislikes, Category, WatchThread
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
@@ -91,7 +91,6 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):  # allows users to creat
 
 @login_required(login_url="login")
 def thread_view(request):
-    # qs = Thread.objects.annotate(like_count=(Count('liked')-Count('dislike'))).order_by('-like_count')  # has a small error idk why
     qs = Thread.objects.all()
     user = request.user
     context = {
@@ -129,14 +128,14 @@ def dislike_thread(request):
     try:
         user = request.user
         if request.method == "POST":
-            thread_d_id = request.POST.get("thread_id")
-            thread_obj = Thread.objects.get(id=thread_d_id)
+            thread_id = request.POST.get("thread_id")
+            thread_obj = Thread.objects.get(id=thread_id)
             
             if user in thread_obj.dislike.all():
                 thread_obj.dislike.remove(user)
             else:
                 thread_obj.dislike.add(user)
-            dislike, created = Dislikes.objects.get_or_create(user=user, thread_d_id=thread_d_id)
+            dislike, created = Dislikes.objects.get_or_create(user=user, thread_id=thread_id)
             
             if not created:
                 if dislike.value == 'Dislike':
@@ -145,10 +144,9 @@ def dislike_thread(request):
                     dislike.value = "Dislike"
                     
             dislike.save()
-        return redirect("thread_detail", pk= thread_d_id)
+        return redirect("thread_detail", pk= thread_id)
     except:
-        return HttpResponseRedirect(reverse_lazy("thread_detail", kwargs={"pk": thread_d_id}))
-
+        return HttpResponseRedirect(reverse_lazy("thread_detail", kwargs={"pk": thread_id}))
 
 
 def CategoryView(request, cats):
@@ -178,15 +176,15 @@ def watch_thread(request):
                 thread_obj.watched.remove(user)
             else:
                 thread_obj.watched.add(user)
-            like, created = Likes.objects.get_or_create(user=user, thread_id=thread_id)
+            watch, created = WatchThread.objects.get_or_create(user=user, thread_id=thread_id)
             
             if not created:
-                if like.value == 'Watch':
-                    like.value = "Unwatch"
+                if watch.value == 'Watch':
+                    watch.value = "Unwatch"
                 else:
-                    like.value = "Watch"
+                    watch.value = "Watch"
                     
-            like.save()
+            watch.save()
         return redirect("thread_detail", pk= thread_id)
     except:
         return HttpResponseRedirect(reverse_lazy("thread_detail", kwargs={"pk": thread_id}))
