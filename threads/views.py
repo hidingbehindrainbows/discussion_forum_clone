@@ -8,11 +8,15 @@ from .models import Thread, Likes, Dislikes, Category, WatchThread
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 
 
 class ThreadView(LoginRequiredMixin, ListView):  # defines the page that shows our threads, it does this by using ListView, which generates an iterable variable
     model = Thread
     template_name = "thread_list.html"
+    # paginate_by = 5
+    # paginate_orphans = 1
+
     
 
 class CommentGet(DetailView):  # GETting the comment info
@@ -100,6 +104,7 @@ def thread_view(request):
     return render(request, "thread_list.html", context)
 
 
+@login_required(login_url="login")
 def like_thread(request):
     try:
         user = request.user
@@ -124,6 +129,8 @@ def like_thread(request):
     except:
         return HttpResponseRedirect(reverse_lazy("thread_detail", kwargs={"pk": thread_id}))
 
+
+@login_required(login_url="login")
 def dislike_thread(request):
     try:
         user = request.user
@@ -149,6 +156,7 @@ def dislike_thread(request):
         return HttpResponseRedirect(reverse_lazy("thread_detail", kwargs={"pk": thread_id}))
 
 
+@login_required(login_url="login")
 def CategoryView(request, cats):
     choices = Category.objects.all().values_list("name")
     all_cats = [item for items in choices for item in items]
@@ -158,6 +166,8 @@ def CategoryView(request, cats):
         return render(request, "categories.html", {"cats":cats, "cat_posts":cat_posts,})
     return redirect("home")
 
+
+@login_required(login_url="login")
 def search_result(request):
     if request.method == "POST":
         searched = request.POST["searched"]
@@ -165,6 +175,7 @@ def search_result(request):
         return render(request, "search/search_result.html", {"searched":searched, "result":result})
     return render(request, "search/search_result.html", {})
 
+@login_required(login_url="login")
 def watch_thread(request):
     try:
         user = request.user

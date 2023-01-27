@@ -70,9 +70,12 @@
 </div>
 <br>
 {% endfor %}
-{% endif %}
 <br><br>
 <h4>Your threads:</h4>
+{% else %}
+<br><br>
+<h4>Their threads:</h4>
+{% endif %}
 {% for thread in threads_by_them %}
 <div class="card">
     <div class="card-header">

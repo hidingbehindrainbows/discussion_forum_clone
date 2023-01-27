@@ -68,7 +68,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                           {% if user.profile.id %}
-                            <li><a class="dropdown-item" href="{% url 'user_profile' user.id%}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'user_profile' user.profile.id%}">Profile</a></li>
                           {% else %}
                             <li><a class="dropdown-item" href="{% url 'create_user_profile_page'%}">Create Profile Page</a></li>
                             <li><a class="dropdown-item" href="{% url 'edit_settings' %}">Settings</a></li>

@@ -9,7 +9,6 @@ from django.shortcuts import get_object_or_404
 
 class CreateUserProfilePageView(LoginRequiredMixin, CreateView):
     model = Profile
-    # form_class = ProfilePageForm
     template_name= "registration/create_user_profile_page.html"
     fields = ("bio", "pfp")
     
@@ -27,21 +26,21 @@ class ShowProfilePageView(LoginRequiredMixin, DetailView):
         threads_watched_by_you = WatchThread.objects.filter(user=current_user.user)
         threads_watched_by_you = [item for item in threads_watched_by_you]
         qs = Thread.objects.filter(title__in= threads_watched_by_you)
-        
+
         context = {
             "current_user":current_user,
             "threads_by_them":Thread.objects.filter(author=current_user.user),
             "threads_watched_by_you": qs,
         }
         return context
-    
+
 
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
 
-class EditSettingsView(UpdateView):
+class EditSettingsView(LoginRequiredMixin, UpdateView):
     form_class = CustomUserChangeForm
     template_name = "registration/edit_settings.html"
     success_url = reverse_lazy("home")
@@ -49,7 +48,7 @@ class EditSettingsView(UpdateView):
     def get_object(self):
         return self.request.user
 
-class EditUserPageView(UpdateView):
+class EditUserPageView(LoginRequiredMixin, UpdateView):
     model = Profile
     template_name = "registration/edit_profile_page.html"
-    fields = ("bio", "pfp")
+    fields = ("bio", "pfp",)

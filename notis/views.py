@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Notification
-from threads.models import WatchThread
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
 
 def ShowNotifications(request):
     user = request.user
@@ -12,10 +13,13 @@ def ShowNotifications(request):
     }
     return render(request, "show_notifications.html", context)
 
+
+@login_required(login_url="login")
 def DeleteNotifications(request, noti_id):
     user = request.user
     Notification.objects.filter(id=noti_id, reciever=user).delete()
     return redirect("show_notifications")
+
 
 
 def CountNotifications(request):

@@ -76,6 +76,6 @@
     </form>
 </div>
 <p>
-    Do you want to go <a href="{% url 'thread_list' %}">back to all threads?</a>
+    Do you want to go back to <a href="{% url 'category' object.category%}">{{object.category}}</a>
 </p>
 {% endblock content %}
