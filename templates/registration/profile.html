@@ -22,7 +22,7 @@
 </div>
 {% if user.id == current_user.user.id %}
 
-<a href="{% url 'edit_profile_page' user.id%}">Edit Profile</a>
+<a href="{% url 'edit_profile_page' user.profile.id%}">Edit Profile</a>
 <h4>Threads watched by you:</h4>
 {% for thread in threads_watched_by_you %}
 <div class="card">

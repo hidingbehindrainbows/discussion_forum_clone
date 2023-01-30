@@ -1,11 +1,17 @@
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, UpdateView, DetailView
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, PasswordChangeingForm
 from threads.models import Profile, Thread, WatchThread
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.views import PasswordChangeView
 
 # Create your views here.
+
+class PasswordsChangeView(LoginRequiredMixin, PasswordChangeView):
+    form_class = PasswordChangeingForm
+    template_name = "registration/password_change.html"
+    success_url = reverse_lazy("home")
 
 class CreateUserProfilePageView(LoginRequiredMixin, CreateView):
     model = Profile
@@ -33,7 +39,6 @@ class ShowProfilePageView(LoginRequiredMixin, DetailView):
             "threads_watched_by_you": qs,
         }
         return context
-
 
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm

@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'channels.apps.ChannelsConfig',
-    'accounts.apps.AccountsConfig', # app for accounts TODO implement password_change
+    'accounts.apps.AccountsConfig', # app for accounts 
     'chats.apps.ChatsConfig', # the app for chatting
     'mainpage.apps.MainpageConfig', # the main_page
     'threads.apps.ThreadsConfig', # app for threads

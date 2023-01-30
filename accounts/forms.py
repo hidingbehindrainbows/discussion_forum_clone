@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm, PasswordChangeForm
 from .models import CustomUser
 from django import forms
 from threads.models import Profile
@@ -30,3 +30,14 @@ class ProfilePageForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ("bio", "pfp")
+
+
+
+class PasswordChangeingForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', "type": "password"}))
+    new_password1 = forms.CharField(max_length=50,widget=forms.PasswordInput(attrs={'class':'form-control', "type": "password"}))
+    new_password2 = forms.CharField(max_length=50,widget=forms.PasswordInput(attrs={'class':'form-control', "type": "password"}))
+    
+    class Meta:
+        model = CustomUser
+        fields = ("old_password", "new_password1", "new_password2",)
