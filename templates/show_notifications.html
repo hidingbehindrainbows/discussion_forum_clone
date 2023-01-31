@@ -9,7 +9,7 @@
 {% for noti in notifications %}
 
 <div class="card">
-    {% if noti.reciever.id == user.id %}
+    {% if noti.sender.id == user.id %}
         <li>
             {% if noti.notification_type == 1 %}
                 You liked'd on your own <a href="{% url 'thread_detail' noti.thread.id%}">thread</a>!
