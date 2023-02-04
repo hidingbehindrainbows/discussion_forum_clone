@@ -12,7 +12,7 @@
             {% else %}
                 <img src="{% static 'threads/images/default_profile.jpg' %}" width=40 height=40 class="rounded">
             {% endif %}
-            <a href="{% url 'user_profile' object.author.id %}">{{ object.author }}</a> | {{ object.date }}
+            <a href="{% url 'user_profile' object.author.profile.id %}">{{ object.author }}</a> | {{ object.date }}
         </p>
         <p>
             {{ object.category }}
@@ -55,7 +55,7 @@
     {% if user not in object.watched.all  %}
         <button class="btn btn bg-info" type="submit">Watch</button>
     {% else %}
-        <button class="btn btn bg-danger" type="submit">Unwatch </button>
+        <button class="btn btn bg-danger" type="submit">Unwatch</button>
     {% endif %}
 </form>
 <strong>{{ object.liked.all.count }} likes, {{ object.dislike.all.count }} dislikes, {{object.watched.all.count}} Watched</strong>
@@ -64,6 +64,13 @@
     {% for comment in object.comment_set.all %}
     <p>
         {{ comment.author }}:<br>{{ comment }}<hr>
+        <form action="{% url 'delete_comment' %}" method = "POST" class="ui form">
+            {% csrf_token %}
+            <input type="hidden" name="thread_id" value="{{ object.id }}">
+            {% if user.id == comment.author.id %}
+            <button class="btn btn bg-danger" type="submit">Delete</button>
+            {% endif %}
+        </form>
     </p>
     {% endfor%}
 </div>

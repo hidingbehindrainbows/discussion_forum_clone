@@ -5,7 +5,7 @@
 
 {% block content %}
 <h2>Coding Discussions</h2>
-{% for thread in qs %}
+{% for thread in qs  %}
 <div class="card">
     <div class="card-header">
         <span class="font-weight-bold"><a href="{% url 'thread_detail' thread.pk %}">{{ thread.title }}</a></span> &middot;
@@ -40,7 +40,8 @@
     <div class="card-body">
         {{ thread.body }}
     </div>
-    <div class="card-footer">
+</div>
+    {% comment %} <div class="card-footer">
         <h4>Comments</h4><hr>
         {% for comment in thread.comment_set.all %}
         <p>            
@@ -49,21 +50,23 @@
         </p>
         {% endfor %}
     </div>
-</div>
+</div> {% endcomment %}
 <br>
 {% endfor %}
-{% comment %} {{ page_obj }}
+{{ page_obj }}
+{% comment %} {{qs.has_previous }}
 <div class="pagination">
     <span class="page-links">
-        {% if page_obj.has_previous %}
-            <a href="/threads/?page={{ page_obj.previous_page_number }}">previous</a>
+        {% if qs.has_previous %}
+            <a href="/threads/?page={{ qs.previous_page_number }}">previous</a>
         {% endif %}
             <span class="page-current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                Page {{ qs.number }} of {{ qs.paginator.num_pages }}.
             </span>
-        {% if page_obj.has_next %}
-            <a href="/threads/?page={{ page_obj.next_page_number }}">next</a>
+        {% if qs.has_next %}
+            <a href="/threads/?page={{ qs.next_page_number }}">next</a>
         {% endif %}
     </span>
 </div> {% endcomment %}
+{{ is_paginated }}
 {% endblock content %}

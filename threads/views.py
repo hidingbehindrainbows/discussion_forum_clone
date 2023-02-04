@@ -4,7 +4,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
 from .forms import CommentForm, ThreadForm
-from .models import Thread, Likes, Dislikes, Category, WatchThread
+from .models import Thread, Likes, Dislikes, Category, WatchThread, Comment
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
@@ -12,10 +12,10 @@ from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 
 
 class ThreadView(LoginRequiredMixin, ListView):  # defines the page that shows our threads, it does this by using ListView, which generates an iterable variable
+    # paginate_by = 5
     model = Thread
     template_name = "thread_list.html"
-    # paginate_by = 5
-    # paginate_orphans = 1
+    # paginate_by = 2
 
     
 
@@ -123,6 +123,9 @@ def like_thread(request):
                     like.value = "Unlike"
                 else:
                     like.value = "Like"
+                    like.delete()
+            if user not in thread_obj.liked.all():
+                like.delete()
                     
             like.save()
         return redirect("thread_detail", pk= thread_id)
@@ -149,6 +152,9 @@ def dislike_thread(request):
                     dislike.value = "Undo"
                 else:
                     dislike.value = "Dislike"
+                    dislike.delete()
+            if user not in thread_obj.dislike.all():
+                dislike.delete()
                     
             dislike.save()
         return redirect("thread_detail", pk= thread_id)
@@ -162,17 +168,24 @@ def CategoryView(request, cats):
     all_cats = [item for items in choices for item in items]
     cats = cats.replace("-", " ")
     if cats in all_cats:
-        cat_posts = Thread.objects.filter(category=cats)
-        return render(request, "categories.html", {"cats":cats, "cat_posts":cat_posts,})
+        p = Paginator(Thread.objects.filter(category=cats), 5) #TODO changable
+        page = request.GET.get("page")
+        cat_thread = p.get_page(page)
+        return render(request, "categories.html", {"cats":cats, "cat_threads":cat_thread})
     return redirect("home")
 
 
 @login_required(login_url="login")
 def search_result(request):
     if request.method == "POST":
+        
+    # page functionality has been implemented inside the html file, but rn sending the context from here is shows there's some error, since there's only one page coming.
         searched = request.POST["searched"]
         result = Thread.objects.filter(title__contains=searched).annotate(like_count=(Count('liked')-Count('dislike'))).order_by('-like_count')
-        return render(request, "search/search_result.html", {"searched":searched, "result":result})
+        # p = Paginator(result, 1) #TODO changable
+        # page = request.GET.get("page")
+        # cat_thread = p.get_page(page)
+        return render(request, "search/search_result.html", {"searched":searched, "cat_threads":result})
     return render(request, "search/search_result.html", {})
 
 @login_required(login_url="login")
@@ -181,6 +194,7 @@ def watch_thread(request):
         user = request.user
         if request.method == "POST":
             thread_id = request.POST.get("thread_id")
+            print(request.method)
             thread_obj = Thread.objects.get(id=thread_id)
             
             if user in thread_obj.watched.all():
@@ -188,15 +202,25 @@ def watch_thread(request):
             else:
                 thread_obj.watched.add(user)
             watch, created = WatchThread.objects.get_or_create(user=user, thread_id=thread_id)
-            
             if not created:
                 if watch.value == 'Watch':
                     watch.value = "Unwatch"
                 else:
                     watch.value = "Watch"
-                    
-            watch.save()
+                watch.save()
+            if user not in thread_obj.watched.all():
+                watch.delete()
         return redirect("thread_detail", pk= thread_id)
     except:
         return HttpResponseRedirect(reverse_lazy("thread_detail", kwargs={"pk": thread_id}))
+    
 
+@login_required(login_url="login")
+def CommentDelete(request):
+    user = request.user
+    thread_id = request.POST.get("thread_id")
+    comment_by_user = Comment.objects.filter(author=user, thread__id = thread_id)
+    comment_by_user.delete()
+    return redirect("thread_detail", pk= thread_id)
+    
+    

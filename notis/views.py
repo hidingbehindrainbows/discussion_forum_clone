@@ -21,7 +21,6 @@ def DeleteNotifications(request, noti_id):
     return redirect("show_notifications")
 
 
-
 def CountNotifications(request):
     count = None
     if request.user.is_authenticated:
