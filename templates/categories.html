@@ -53,7 +53,6 @@
     </div>
         <br>
         {% endfor %}
-        {% if cat_threads.has_next %}
         {% if cat_threads.paginator.num_pages > 2 %}
         <nav aria-label="Page navigation example">
             <ul class="pagination">
@@ -108,7 +107,6 @@
             </ul>
           </nav>
         <hr><br><br>
-    {% endif %}
     {% else %}
     <h4>
     No threads here yet...<br>

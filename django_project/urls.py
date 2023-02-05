@@ -25,6 +25,7 @@ urlpatterns = [
     path("livechat/", include("chats.urls")),
     path("threads/", include("threads.urls")),
     path("inbox/", include("notis.urls")),
+    path("direct_message/", include("direct_messages.urls")),
     path("", include("mainpage.urls")),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

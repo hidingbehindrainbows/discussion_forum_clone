@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,6 +34,10 @@
             'opsz' 48
         }
     </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    {% block javascript %}
+    {% endblock javascript %}
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -96,6 +101,16 @@
                         {% endif %}
                       </ul>
                     </li>
+                    <li class="nav-item me-3 me-lg-0 dropdown">
+                      <button class="btn  btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #0088cc; border-style: hidden;">
+                        Messages<span class="new badge bg-danger">{{ count_messages }}</span>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                        {% if user.profile.id %}
+                        <li><a class="dropdown-item" href="{% url 'message_inbox' %}">Go there?</a></li>
+                        {% endif %}
+                      </ul>
+                    </li>
                     <a class="dropdown-menu" href="#">Change Password</a>
                     <li class="nav-item me-3 me-lg-0">
                       <form class="d-flex" method="post" action="{% url 'search_result' %}">
@@ -112,57 +127,21 @@
               </nav>
         </div>
         <main>
-          {% block content %}
-          {% endblock content %}
+          <div class="container">
+            <div class="row">
+              {% block content %}
+              {% endblock content %}
+
+              
+            </div>
+          </div>
+          {% block icons %}
+          {% endblock icons %}
         </main>
-    </div>
+      </div>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.js' %}"></script>
+    <script src="{% static 'js/materialize.min.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
 </body>
 </html>
-
-{% comment %} <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{% block title %}Discussion Forums{% endblock title %}</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    </head>
-<body>
-    <div class="container">
-      <header class="p-3 mb-3 border-bottom">
-        <div class="container">
-          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a class="navbar-brand" href="{% url 'home' %}">Discussion Forums</a>
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            {% if user.is_authenticated %}
-              <li><a href="{% url 'thread_new' %}" class="nav-link px-2 link-dark">+ New</a></li>
-            </ul>
-            <div class="dropdown text-end">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-          {{ user.username }}
-        </a>
-        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-          <li><a class="dropdown-item" href="{% url 'password_change' %}">Change password</a></li>
-          <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
-          <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
-        </ul>
-      </div>
-      {% else %}
-      </ul>
-      <div class="text-end">
-        <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">Log In</a>
-        <a href="{% url 'signup' %}" class="btn btn-primary">Sign Up</a>
-      </div>
-      {% endif %}        
-    </div>
-  </div>
-</header>
-<main>
-  {% block content %}
-  {% endblock content %}
-</main>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</body> {% endcomment %}

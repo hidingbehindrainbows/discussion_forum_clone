@@ -40,12 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'crispy_bootstrap5',
+    "django_ajax",
+    "django.contrib.humanize",
     'channels.apps.ChannelsConfig',
     'accounts.apps.AccountsConfig', # app for accounts 
     'chats.apps.ChatsConfig', # the app for chatting
     'mainpage.apps.MainpageConfig', # the main_page
     'threads.apps.ThreadsConfig', # app for threads
     "notis.apps.NotisConfig",
+    "direct_messages.apps.DirectMessagesConfig",
 ]
 
 MIDDLEWARE = [
@@ -129,13 +132,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_URL = "/media/"
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
-    )
+)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
