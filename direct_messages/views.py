@@ -12,9 +12,9 @@ from django.contrib.humanize.templatetags.humanize import naturaltime
 
 
 @login_required(login_url="login")
-def NewConversation(request, u_id):
+def NewConversation(request, pk):
     from_user = request.user
-    to_user = get_object_or_404(CustomUser, id = u_id)
+    to_user = get_object_or_404(CustomUser, id = pk)
     body = "Started a new conversation"
     if from_user != to_user:
         try:
@@ -26,7 +26,8 @@ def NewConversation(request, u_id):
 
 @login_required(login_url="login")
 def Message_inbox(request):
-    p = Paginator(Message.get_message(recipient=request.user), 25) #TODO changable
+    m = Message.get_message(user=request.user)
+    p = Paginator(m, 25) #TODO changable
     page = request.GET.get("page")
     page_of_message = p.get_page(page)
     context = {
@@ -75,10 +76,8 @@ def LoadMore(request):
                 directs_list[x]['date'] = naturaltime(directs_list[x]['date'])
             
             return JsonResponse(directs_list, safe=False)
-            # return HttpResponseBadRequest
         else:
             return JsonResponse({'empty': True}, safe=False)
-            # return HttpResponseBadRequest
 
 
 def Directs(request, pk):

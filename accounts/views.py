@@ -5,6 +5,7 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm, PasswordChangei
 from threads.models import Profile, Thread, WatchThread
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.views import PasswordChangeView
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -38,6 +39,9 @@ class ShowProfilePageView(LoginRequiredMixin, DetailView):
             "threads_by_them":Thread.objects.filter(author=current_user.user),
             "threads_watched_by_you": qs,
         }
+        # p = Paginator(context, 5)
+        # page = self.request.GET.get("page")
+        # information = p.get_page(page)
         return context
 
 class SignUpView(CreateView):

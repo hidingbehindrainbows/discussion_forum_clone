@@ -10,14 +10,15 @@
         <ul>
             <li>
                 <p>
-                    <a href="{% url 'user_profile' message.sender.profile.id %}">{{ message.sender }}</a> 
+                    <a href="{% url 'user_profile' message.recipient.profile.id %}">{{ message.recipient }}</a> 
                     has sent you 
                     {% if message.unread == 0 %}
-                    no new messages...
+                    no new messages...<br>
+                    <a href="{% url 'directs' message.recipient.id %}">Go to your conversation</a>?
                     {% elif message.unread == 1 %}
-                    {{ message.unread }} <a href="{% url 'directs' message.sender.id %}"> new message</a>!
+                    {{ message.unread }} <a href="{% url 'directs' message.recipient.id %}"> new message</a>!
                     {% else %}
-                    {{ message.unread }} <a href="#"> new messages</a>!
+                    {{ message.unread }} <a href="{% url 'directs' message.recipient.id %}"> new messages</a>!
                     {% endif %}
                 </p>
             </li>

@@ -40,7 +40,6 @@ class Message(models.Model):
             sender = from_user,
             recipient = from_user,
             body=body,
-            is_read = True,
         )
         recipient_message.save()
         return sender_message
