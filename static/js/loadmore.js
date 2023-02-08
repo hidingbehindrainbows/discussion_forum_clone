@@ -1,4 +1,3 @@
-// (function($){
 function myFunction(){
 
         var u_id = document.getElementsByName('to_user_id')[0].value;
@@ -31,7 +30,6 @@ function myFunction(){
         return false;
  // end of document ready
 }(jQuery)
-// )
 ; // end of jQuery name space
 
 

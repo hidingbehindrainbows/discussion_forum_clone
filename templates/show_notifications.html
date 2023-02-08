@@ -13,7 +13,7 @@
       <ul>
           <li>
               {% if noti.notification_type == 1 %}
-                  You liked'd on your own <a href="{% url 'thread_detail' noti.thread.id%}">thread</a>!
+                  You liked on your own <a href="{% url 'thread_detail' noti.thread.id%}">thread</a>!
               {% elif noti.notification_type == 2 %}
                   You commented on your own <a href="{% url 'thread_detail' noti.thread.id%}">thread</a>!
               {% elif noti.notification_type == 3 %}
@@ -24,6 +24,7 @@
           </p>
           </li>
         </ul>
+      </div>
     {% else %}
       <ul>
           <li class="collection-item avatar">
