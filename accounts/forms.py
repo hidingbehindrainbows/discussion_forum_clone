@@ -16,7 +16,7 @@ class CustomUserCreationForm(UserCreationForm):
             "USN",
             "email",
         )
-        
+
 class CustomUserChangeForm(UserChangeForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}))
     first_name = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))
