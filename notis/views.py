@@ -12,11 +12,12 @@ def ShowNotifications(request):
     # context= {
     #     "notifications": notifications,
     # }
-    #TODO paginator might have error
-    p = Paginator(Notification.objects.filter(reciever=user).order_by("-date"), 25) #TODO changable
+    # TODO paginator might have error
+    p = Paginator(Notification.objects.filter(
+        reciever=user).order_by("-date"), 25)  # TODO changable
     page = request.GET.get("page")
     page_of_notis = p.get_page(page)
-    context= {
+    context = {
         "notifications": page_of_notis,
     }
     return render(request, "show_notifications.html", context)
@@ -32,6 +33,6 @@ def DeleteNotifications(request, noti_id):
 def CountNotifications(request):
     count = None
     if request.user.is_authenticated:
-        count = Notification.objects.filter(reciever=request.user, is_seen=False).count()
-    return { "count_notifications":count }
-    
+        count = Notification.objects.filter(
+            reciever=request.user, is_seen=False).count()
+    return {"count_notifications": count}

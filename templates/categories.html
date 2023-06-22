@@ -4,7 +4,7 @@
 
 {% block title %}{{ cats }}{% endblock title %}
 {% block content %}
-
+<hr style="visibility:hidden">
     {% if cat_threads %}
         {% for cat in cat_threads %}
         <div class="card">
@@ -51,7 +51,7 @@
                 {% endfor %}
         </div>
     </div>
-        <br>
+    <hr style="visibility:hidden">
         {% endfor %}
         {% if cat_threads.paginator.num_pages > 2 %}
         <nav aria-label="Page navigation example">

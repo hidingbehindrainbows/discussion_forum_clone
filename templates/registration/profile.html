@@ -3,27 +3,28 @@
 {% block title %} {{current_user }}'s Profile{% endblock title%}
 
 {% block content%}
-<div>
+<div class="card">
+    <div class="card-header">
         {% if current_user.pfp %}
             <img src="{{ current_user.pfp.url }}" width=40 height=40 class="rounded">
         {% else %}
             <img src="{% static 'threads/images/default_profile.jpg' %}" width=40 height=40 class="rounded">
         {% endif %}
-
-    <div>
         <p> 
         <strong>Username: </strong>{{current_user.user.username }}<br>
         <strong>Name: </strong>{{current_user.user.first_name }} 
             {{current_user.user.last_name }}<br>
         <strong> USN:</strong> {{current_user.user.USN }}<br>
         </p>
-        
+    </div>
+    <div class="card-body">
         <h4>{{current_user.bio}} </h4>
     </div>
-</div>
 {% if user.id == current_user.user.id %}
-
-<a href="{% url 'edit_profile_page' user.profile.id%}">Edit Profile</a>
+    <div class="card-footer">
+        <a href="{% url 'edit_profile_page' user.profile.id%}"><center>Edit Profile</center></a>
+    </div>
+</div>
 {% if threads_watched_by_you %}
     <h4>Threads watched by you:</h4>
     {% for thread in threads_watched_by_you %}
@@ -70,7 +71,7 @@
             {% endfor %}
         </div>
     </div>
-    <br>
+    <br><hr style="visibility:hidden">
     {% endfor %}
     <br><br>
 {% endif %}
@@ -129,6 +130,6 @@
         {% endfor %}
     </div>
 </div>
-<br>
+<br><hr style="visibility:hidden">
 {% endfor %}
 {% endblock content %}

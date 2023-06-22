@@ -5,8 +5,10 @@
 {% block title %}Your Messages{% endblock title %}
 
 {% block content %}
+<div class="card">
     {% if messages %}
         {% for message in messages %}
+        <div class="card-body">
         <ul>
             <li>
                 <p>
@@ -23,6 +25,7 @@
                 </p>
             </li>
         </ul>
+      </div><hr>
         {% endfor %}
         {% comment %} paginatinon {% endcomment %}
         {% if messages.paginator.num_pages > 2 %}
@@ -77,8 +80,8 @@
               </nav>
             {% endif %}
             </ul>
-          </nav>
-        <hr><br><br>
+          </nav><br>
+        </div>
     {% else %}
     <h4>You have no new messages...</h4>
     {% endif %}

@@ -4,25 +4,65 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-Hi {{ user.username }}!
-<p>
+<div class="accordion-body">
+    <h3>
+        Hi {{ user.username }}! Welcome back!!
+    </h3>
+    <p></p>
+</div><hr>
+{% comment %} <p>
     <a href="{% url 'logout' %}">Log Out</a>
-</p>
+</p> {% endcomment %}
 {% else %}
-<p>
-    You are not logged in.
-</p>
+<div style="position:relative;">
+    <h3>
+        You are not logged in.
+    </h3>
+    <p></p>
+</div><hr>
 {% endif %}
-<a href="{% url 'category' 'Site-News!' %}">
-    Site News!
-</a><br>
-<a href = "#">
-    Site Suggestions and Tech Issues
-</a><br>
-<a href="{% url 'thread_list' %}">All</a><br>
-<a href="{% url 'category' 'General' %}">General</a><br>
-<a href="{% url 'category' cats="Web-Development" %}">Web Development</a><br>
-<a href="{% url 'category' 'App-Development' %}">App Development</a><br>
-<a href="{% url 'category' 'Coding' %}">Coding</a><br>
-<a href="{% url 'livechat' %}">Live Chat</a><br>
+<div class="card bg-dark bg-gradient" style="width:50vw;">
+    <div class="card-body">
+  <div class="card">
+        <div class="card-body">
+            <a href="{% url 'category' 'Site-News!' %}"> Site News! </a>
+        </div>
+      </div><br>
+      <div class="card">
+        <div class="card-body">
+            <a href = "#">Site Suggestions and Tech Issues</a>
+        </div>
+      </div><br>
+      <div class="card">
+        <div class="card-body">
+            <a href="{% url 'thread_list' %}">All</a>
+        </div>
+      </div><br>
+      <div class="card">
+        <div class="card-body">
+            <a href="{% url 'category' 'General' %}">General</a>
+        </div>
+      </div><br>
+      <div class="card">
+        <div class="card-body">
+            <a href="{% url 'category' cats="Web-Development" %}">Web Development</a>
+        </div>
+      </div><br>
+      <div class="card">
+        <div class="card-body">
+            <a href="{% url 'category' 'App-Development' %}">App Development</a>
+        </div>
+      </div><br>
+      <div class="card">
+        <div class="card-body">
+            <a href="{% url 'category' 'Coding' %}">Coding</a>
+        </div>
+      </div><br>
+      <div class="card">
+        <div class="card-body">
+            <a href="{% url 'livechat' %}">Live Chat</a>
+        </div>
+      </div>
+    </div>
+</div>
 {% endblock content %}

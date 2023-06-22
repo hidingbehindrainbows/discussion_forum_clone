@@ -53,10 +53,10 @@
         {% else %}
             <img src="{% static 'threads/images/default_profile.jpg' %}" width=20 height=20 class="circle responsive-img">
         {% endif %}
-            <span class="title">{{ message.recipient.first_name }} {{ message.recipient.last_name }}</span>
-            <p><b>@{{ message.recipient.username }}</b></p>
-            <span class="new badge bg-danger">{{ message.unread }}</span>
-            <a href="" class="secondary-content red-text"><i class="material-icons">delete</i></a>
+            <span class="title fw-bold" style="color: black">{{ message.recipient.first_name }} {{ message.recipient.last_name }}</span>
+            <p><b style="color: black">@{{ message.recipient.username }}</b></p>
+            <span class="new badge bg-dark">{{ message.unread }}</span>
+            <a href="#" class="secondary-content red-text"><i class="material-icons" style="color:red">delete</i></a>
         </li>
     </a>
     {% endfor %}
