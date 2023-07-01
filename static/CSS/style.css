@@ -3,10 +3,19 @@
 } */
 
 body {
-    background-image: linear-gradient(rgb(46, 33, 118), rgb(45, 146, 99));
+    /* background-image: linear-gradient(rgb(243, 198, 184), rgb(229, 146, 162));  */
+    background:
+        linear-gradient(to left top, rgb(252, 154, 138) 20%/*bottom-right color*/,  rgb(237, 189, 175) 75% /*top-left color*/),
+        linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 1))/*"faked" black background make sure to add last or it will appear before the transparent/colored layer*/;
+
+    /* background-color: rgb(54, 134, 109); */
     background-repeat: no-repeat;
     background-attachment: fixed;
     overflow: auto;
+    /* background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, .15)), to(rgba(0, 0, 0, .25))), -webkit-gradient(linear, left top, right bottom, color-stop(0, rgba(255, 255, 255, 0)), color-stop(0.5, rgba(255, 255, 255, .1)), color-stop(0.501, rgba(255, 255, 255, 0)), color-stop(1, rgba(255, 255, 255, 0)));
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, .15), rgba(0, 0, 0, .25)), -moz-linear-gradient(left top, rgba(255, 255, 255, 0), rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0));
+    background-image: linear-gradient(top, rgba(255, 255, 255, .15), rgba(0, 0, 0, .25)), linear-gradient(left top, rgba(255, 255, 255, 0), rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0)); */
+
   }
 
 
@@ -29,6 +38,13 @@ body {
     background-image: linear-gradient(to right, darkslategray, black);
 } */
 
-h1, h2, h3, h4, h5{
+/* h1, h2, h3, h4, h5{
     background: hsl(var(--hue), calc(var(--sat) * 1%), calc(var(--light) * 10%));
+} */
+
+.container-for-home{
+    display:flex;
+    height: 100vh;
+    width:100vw;
+    justify-content: space-around;
 }

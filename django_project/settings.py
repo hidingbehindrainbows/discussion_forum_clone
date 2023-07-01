@@ -24,9 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a)eh9i*&)#_%d#$qze*-bs-u-2f3f=!nwd=tgpoxjeq5co=8vc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True # TODO set this to false before deployment
+DEBUG = True  # TODO set this to false before deployment
 
-ALLOWED_HOSTS = ["127.0.0.1","localhost",] # allowed only in your local host, so TODO is to set other websites which are going to be used for deployment
+# allowed only in your local host, so TODO is to set other websites which are going to be used for deployment
+ALLOWED_HOSTS = ["127.0.0.1", "localhost",]
 
 
 # Application definition
@@ -43,11 +44,12 @@ INSTALLED_APPS = [
     "django_ajax",
     "django.contrib.humanize",
     'channels.apps.ChannelsConfig',
-    'accounts.apps.AccountsConfig', # app for accounts 
-    'chats.apps.ChatsConfig', # the app for chatting
-    'mainpage.apps.MainpageConfig', # the main_page
-    'threads.apps.ThreadsConfig', # app for threads
+    'accounts.apps.AccountsConfig',  # app for accounts
+    'chats.apps.ChatsConfig',  # the app for chatting
+    'mainpage.apps.MainpageConfig',  # the main_page
+    'threads.apps.ThreadsConfig',  # app for threads
     "notis.apps.NotisConfig",
+    "django_icons",
     "direct_messages.apps.DirectMessagesConfig",
 ]
 
@@ -157,3 +159,8 @@ LOGOUT_REDIRECT_URL = "home"
 #     }
 # }
 
+DJANGO_ICONS = {
+    "ICONS": {
+        "edit": {"name": "far fa-pencil"},
+    },
+}

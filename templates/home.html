@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}Home{% endblock title %}
+{% load static %}
 
 {% block content %}
 {% if user.is_authenticated %}
@@ -21,48 +22,56 @@
     <p></p>
 </div><hr>
 {% endif %}
-<div class="card bg-dark bg-gradient" style="width:50vw;">
-    <div class="card-body">
-  <div class="card">
-        <div class="card-body">
-            <a href="{% url 'category' 'Site-News!' %}"> Site News! </a>
-        </div>
-      </div><br>
-      <div class="card">
-        <div class="card-body">
-            <a href = "#">Site Suggestions and Tech Issues</a>
-        </div>
-      </div><br>
-      <div class="card">
-        <div class="card-body">
-            <a href="{% url 'thread_list' %}">All</a>
-        </div>
-      </div><br>
-      <div class="card">
-        <div class="card-body">
-            <a href="{% url 'category' 'General' %}">General</a>
-        </div>
-      </div><br>
-      <div class="card">
-        <div class="card-body">
-            <a href="{% url 'category' cats="Web-Development" %}">Web Development</a>
-        </div>
-      </div><br>
-      <div class="card">
-        <div class="card-body">
-            <a href="{% url 'category' 'App-Development' %}">App Development</a>
-        </div>
-      </div><br>
-      <div class="card">
-        <div class="card-body">
-            <a href="{% url 'category' 'Coding' %}">Coding</a>
-        </div>
-      </div><br>
-      <div class="card">
-        <div class="card-body">
-            <a href="{% url 'livechat' %}">Live Chat</a>
+{% comment %} background-image: linear-gradient( to right, #6D7895, #2E3445); {% endcomment %}
+<div class="d-flex justify-content-md-around">
+  <div class="card" style="width:45vw; background-image: linear-gradient(to right, rgb(93, 105, 123), rgb(40, 45, 72));">
+      <div class="card-body">
+    <div class="card" style="border:none;background: var(--bg-color);">
+      {% comment %} <div class="card" style="background-color: rgb(162, 150, 132)"> {% endcomment %}
+          <div class="card-body text-center fs-4 ">
+              <a class="text-decoration-none" style="color: rgb(252, 154, 138)" href="{% url 'category' 'Site-News!' %}">Site News!</a>
+          </div>
+        </div><hr style="background-color:white">
+        <div class="card" style="border:none;background: var(--bg-color);">
+          <div class="card-body text-center fs-4">
+              <a class="text-decoration-none" style="color:rgb(252, 154, 138)" href = "#">Site Suggestions and Tech Issues</a>
+          </div>
+        </div><hr style="background-color:white">
+        <div class="card" style="border:none;background: var(--bg-color);">
+          <div class="card-body text-center fs-4">
+              <a class="text-decoration-none" style="color:rgb(252, 154, 138)" href="{% url 'thread_list' %}">All</a>
+          </div>
+        </div><hr style="background-color:white">
+        <div class="card" style="border:none;background: var(--bg-color);">
+          <div class="card-body text-center fs-4">
+              <a class="text-decoration-none" style="color:rgb(252, 154, 138)" href="{% url 'category' 'General' %}">General</a>
+          </div>
+        </div><hr style="background-color:white">
+        <div class="card" style="border:none;background: var(--bg-color);">
+          <div class="card-body text-center fs-4">
+              <a class="text-decoration-none" style="color:rgb(252, 154, 138)" href="{% url 'category' cats="Web-Development" %}">Web Development</a>
+          </div>
+        </div><hr style="background-color:white">
+        <div class="card" style="border:none;background: var(--bg-color);">
+          <div class="card-body text-center fs-4">
+              <a class="text-decoration-none" style="color:rgb(252, 154, 138)" href="{% url 'category' 'App-Development' %}">App Development</a>
+          </div>
+        </div><hr style="background-color:white">
+        <div class="card" style="border:none;background: var(--bg-color);">
+          <div class="card-body text-center fs-4">
+              <a class="text-decoration-none" style="color:rgb(252, 154, 138)" href="{% url 'category' 'Coding' %}">Coding</a>
+          </div>
+        </div><hr style="background-color:white">
+        <div class="card" style="border:none;background: var(--bg-color);">
+          <div class="card-body text-center fs-4">
+              <a class="text-decoration-none" style="color:rgb(252, 154, 138)" href="{% url 'livechat' %}">Live Chat</a>
+          </div>
         </div>
       </div>
-    </div>
+  </div>
+  <div class="card" style="width:45vw; background-color:purple;">
+    <img src="{% static 'icons\ConClave.png' %}">
+
+  </div>
 </div>
 {% endblock content %}
