@@ -120,8 +120,11 @@ def like_thread(request):
                 thread_obj.liked.remove(user)
             else:
                 thread_obj.liked.add(user)
-            like, created = Likes.objects.get_or_create(
-                user=user, thread_id=thread_id)
+            try:
+                like, created = Likes.objects.get_or_create(
+                    user=user, thread_id=thread_id)
+            except Exception as e:
+                print(e)
 
             if not created:
                 if like.value == 'Like':
@@ -149,8 +152,11 @@ def dislike_thread(request):
                 thread_obj.dislike.remove(user)
             else:
                 thread_obj.dislike.add(user)
-            dislike, created = Dislikes.objects.get_or_create(
-                user=user, thread_id=thread_id)
+            try:
+                dislike, created = Dislikes.objects.get_or_create(
+                    user=user, thread_id=thread_id)
+            except Exception as e:
+                print(e)
 
             if not created:
                 if dislike.value == 'Dislike':
@@ -208,8 +214,12 @@ def watch_thread(request):
                 thread_obj.watched.remove(user)
             else:
                 thread_obj.watched.add(user)
-            watch, created = WatchThread.objects.get_or_create(
-                user=user, thread_id=thread_id)
+            try:
+                watch, created = WatchThread.objects.get_or_create(
+                    user=user, thread_id=thread_id)
+            except Exception as e:
+                print(e)
+
             if not created:
                 if watch.value == 'Watch':
                     watch.value = "Unwatch"

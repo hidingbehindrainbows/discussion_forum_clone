@@ -89,12 +89,28 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',  # ONLY USE FOR WHEN DBSQLITE3
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "discussion_forum",
+        "USER": "postgres",
+        "PASSWORD": "thisismy_POSTGRESS(password)",
+        "HOST": "127.0.0.1",
+        "PORT": "8000",
+        # "OPTIONS": {
+        #     "service": "my_service",
+        #     "passfile": ".my_pgpass",
+        # },
     }
 }
+
 
 AUTH_USER_MODEL = "accounts.CustomUser"
 NOTIFICATIONS_NOTIFICATION_MODEL = "apps.notis.Notification"
