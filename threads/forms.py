@@ -18,7 +18,6 @@ class ThreadForm(forms.ModelForm):
     class Meta:
         model = Thread
         fields = ("title", "category", "body", "thread_image", )
-        fields = ("title", "body", "thread_image", )
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
             "category": forms.Select(choices=choice_list, attrs={"class": "form-control"}),
