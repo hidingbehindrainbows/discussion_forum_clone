@@ -37,11 +37,11 @@
               <a class="text-decoration-none" style="color:rgb(252, 154, 138)" href = "#">Site Suggestions and Tech Issues</a>
           </div>
         </div><hr style="background-color:white">
-        <div class="card" style="border:none;background: var(--bg-color);">
-          <div class="card-body text-center fs-4">
-              <a class="text-decoration-none" style="color:rgb(252, 154, 138)" href="{% url 'thread_list' %}">All</a>
-          </div>
-        </div><hr style="background-color:white">
+        <!--<div class="card" style="border:none;background: var(--bg-color);">-->
+          <!--<div class="card-body text-center fs-4">-->
+          <!--    <a class="text-decoration-none" style="color:rgb(252, 154, 138)" href="{% url 'thread_list' %}">All</a>-->
+          <!--</div>-->
+        <!--</div><hr style="background-color:white">-->
         <div class="card" style="border:none;background: var(--bg-color);">
           <div class="card-body text-center fs-4">
               <a class="text-decoration-none" style="color:rgb(252, 154, 138)" href="{% url 'category' 'General' %}">General</a>
@@ -69,9 +69,15 @@
         </div>
       </div>
   </div>
-  <div class="card" style="width:45vw; background-color:var(--bgr-color); border=none">
+  <div class="card" style="width:45vw; background-color:var(--bgr-color); border=hidden">
+    <!--<div class="card-body">-->
     <br><br><br><br><br><br>
+    <!--<hr style="visibility:hidden">-->
+    <!--<hr style="visibility:hidden">-->
+    <hr style="visibility:hidden">
         <img src="{% static 'icons\ConClave.png' %}">
+    <!--</div>-->
+
   </div>
 </div>
 {% endblock content %}
